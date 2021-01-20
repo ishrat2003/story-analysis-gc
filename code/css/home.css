@@ -1,0 +1,22 @@
+.ui-widget-content .ui-icon {
+    background-image: url("../images/ui-icons_222222_256x240.png")      
+    !important;
+}
+.ui-widget-header .ui-icon {
+    background-image: url("../images/ui-icons_222222_256x240.png")   
+    !important;
+}
+
+#rectRoundCorners {
+    border-radius: 25px;
+    border: 3px solid #494a47;
+    padding: 20px 20px 20px 20px; 
+    width: 600px;
+    height: 300px;  
+}
+
+.mapTooltipGraph {
+    background-color: white; 
+}
+
+.bar { fill: rgb(204, 239, 255); }
