@@ -1,11 +1,12 @@
 
 function displayGcTopics(data){
+  data = data.reverse();
   var divId = "#dailyTopic";
 
   // set the dimensions and margins of the graph
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+  var margin = {top: 20, right: 20, bottom: 30, left: 100},
   width = 960 - margin.left - margin.right,
-  height = 500 - margin.top - margin.bottom;
+  height = 1000 - margin.top - margin.bottom;
 
   // set the ranges
   var y = d3.scaleBand()
@@ -28,23 +29,51 @@ function displayGcTopics(data){
         "translate(" + margin.left + "," + margin.top + ")");
 
   // Scale the range of the data in the domains
-  x.domain([0, d3.max(data, function(d){ return d.count; })])
-  y.domain(data.map(function(d) { return d.name; }));
+  x.domain([0, d3.max(data, function(d){ return d.total_block_count_in_range; })])
+  y.domain(data.map(function(d) { return d.display; }));
 
   // append the rectangles for the bar chart
   svg.selectAll(".bar")
     .data(data)
   .enter().append("rect")
     .attr("class", "bar")
-    .attr("width", function(d) {return x(d.count); } )
-    .attr("y", function(d) { return y(d.name); })
+    .attr("width", function(d) {return x(d.total_block_count_in_range); } )
+    .attr("y", function(d) { return y(d.display); })
     .attr("height", y.bandwidth())
     .on("mousemove", function(d){
+      var html = "<strong>Country: </strong><span class='mapTooltipDetails'>" 
+        + d.display + "<br></span>" 
+        // + "<strong>Blocks count: </strong><span class='details'>" 
+        // + d.total_block_count +"<br></span>"
+        + "<strong>Blocks count in range: </strong><span class='details'>" 
+        + d.total_block_count_in_range +"</span>";
+      var divIdForGraph = 'topicItem' + d.key;
+      if (d.linegraph) {
+        html += "<div id=\"" + divIdForGraph+ "\" class=\"tooptipTopic\"></div>";
+      }
+      
+      var countPerDay = [];
+      if (d.linegraph) {
+        d.linegraph.forEach(function(item){
+          countPerDay.push({
+            date : d3.timeParse("%Y-%m-%d")(item["date"]), 
+            value : item["block_count"]
+          });
+        });
+      }
+      countPerDay = countPerDay.sort(function(a,b) {
+          return a.date - b.date;
+      });
+      
+
       tooltip
         .style("left", d3.event.pageX + 50 + "px")
         .style("top", d3.event.pageY - 70 + "px")
         .style("display", "inline-block")
-        .html((d.name) + "<br>" + (d.count));
+        .html(html);
+        if(d.linegraph && d.linegraph.length){
+          drawMapBlocksPerDateGraph(divIdForGraph, countPerDay, "topicTooltipGraph");
+        }
     })
     .on("mouseout", function(d){ tooltip.style("display", "none");});
 
@@ -57,3 +86,4 @@ function displayGcTopics(data){
   svg.append("g")
     .call(d3.axisLeft(y));
 }
+

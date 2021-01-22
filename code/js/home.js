@@ -13,11 +13,9 @@ function updateDataTexts(dates){
 
     var currentText = "Currently displaying data ";
     if (dates && dates['start']){
-        setDate(dates['start'], '#from_datepicker')
         currentText += "from " + dates['start'];
     }
     if (dates && dates['end']){
-        setDate(dates['end'], '#to_datepicker')
         currentText += " to " + dates['end'];
     }
     currentText += '.';
@@ -33,7 +31,7 @@ function setDate(dateString, divId){
 function getGcDateDate(){
     return {
         "start": $('#from_datepicker').datepicker({ dateFormat: dateFormat }).val(),
-        "end": $('#from_datepicker').datepicker({ dateFormat: dateFormat }).val()
+        "end": $('#to_datepicker').datepicker({ dateFormat: dateFormat }).val()
     };
 }
 
@@ -45,32 +43,80 @@ function loadMap(countries){
       });
 }
 
+function displayCard(data, className, blockName){
+    var index = 0;
+    var rowDiv = blockName + "Row" + index;
+    data.forEach(function(item){
+        if (index % 3 == 0){
+            rowDiv = blockName + "Row" + index;
+            $('#' + blockName).append('<div id="' + rowDiv + '" class="row"></div>');
+        }
+        var countPerDay = [];
+        if (item && item["count_per_day"]) {
+            for (var key in item["count_per_day"]) {
+                countPerDay.push({
+                    date : d3.timeParse("%Y-%m-%d")(key), 
+                    value : item["count_per_day"][key]
+                });
+            }
+            countPerDay = countPerDay.sort(function(a,b) {
+                return a.date - b.date;
+            });
+        }
+        var divId = 'map' + item['key']; 
+        var html = '<div class="column">';
+        html += '<div class="card   ' + className + '">';
+        if(className == 'people'){
+            html += '<img src="/images/shadow.png" alt="Avatar" class="personShadow"></img>';
+        }
+        html += '<h3>' + item['display'] + '</h3>';
+        html += '<p><strong>Blocks count: </strong>' + item['total_block_count'] + '</p>';
+        html += '<p><strong>Blocks count in range: </strong>' + item['total_block_count_in_range'] + '</p>';
+        html += '<div id="' + divId + '"></div>';
+        html += '</div>';
+        html += '</div>';
+        $('#' + rowDiv).append(html);
+        drawMapBlocksPerDateGraph(divId, countPerDay, className + 'Graph');
+        index++;
+    });
+
+}
+
 $( function() {
     $( ".datepicker" ).datepicker({ dateFormat: dateFormat });
-    setDate("2021-01-01", '#from_datepicker');
-    setDate("2021-01-30", '#to_datepicker');
-    $.ajax({
-      type: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      url: "http://127.0.0.1:3500/topic",
-      data: JSON.stringify({
-          "start": "2020-10-21",
-          "end": "2021-01-30"
-      }),
-      success: function(result){
-        console.log(result['data']);
-        if(result && result['data'] && result['data']['dates']){
-            updateDataTexts(result['data']['dates']);
+    $("#dailyTopic").hide();
+
+    $('#gcAnalysis').on('click', function(){
+        $("#worldMap, #dailyTopic, #organizationsBlock, #personBlock",).html("");
+        $.ajax({
+        type: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        url: "http://127.0.0.1:3500/topic",
+        data: JSON.stringify(getGcDateDate()),
+        success: function(result){
+            if(result && result['data'] && result['data']['dates']){
+                updateDataTexts(result['data']['dates']);
+            }
+            if(result && result['data'] && result['data']['countries']){
+                loadMap(result['data']['countries']);
+            }
+            if(result && result['data'] && result['data']['topics']){
+                displayGcTopics(result['data']['topics']);
+                $("#dailyTopic").show();
+            }
+            if(result && result['data'] && result['data']['organizations']){
+                displayCard(result['data']['organizations'], 'organizations', 'organizationsBlock');
+            }
+            if(result && result['data'] && result['data']['people']){
+                displayCard(result['data']['people'], 'people', 'personBlock');
+            }
+        },
+        dataType: 'json',
+        error: function () {
+            console.log("error");
         }
-        if(result && result['data'] && result['data']['countries']){
-            loadMap(result['data']['countries']);
-        }
-      },
-      dataType: 'json',
-      error: function () {
-        console.log("error");
-      }
+        });
     });
-  } );
+});

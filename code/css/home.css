@@ -20,3 +20,28 @@
 }
 
 .bar { fill: rgb(204, 239, 255); }
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+.buttonGrey {background-color: #e7e7e7; color: black;}
+
+.personShadow {
+    width: 50px;
+    height: 50px;  
+}
+
+.organizationsBlock .card{
+    background-color: #e1d7c972; 
+    color: black;
+}

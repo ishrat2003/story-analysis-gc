@@ -1,4 +1,4 @@
-function drawMapBlocksPerDateGraph(divId, data){
+function drawMapBlocksPerDateGraph(divId, data, className){
   // set the dimensions and margins of the graph
   var margin = {top: 30, right: 30, bottom: 100, left: 60},
   width = 300 - margin.left - margin.right,
@@ -17,7 +17,7 @@ function drawMapBlocksPerDateGraph(divId, data){
   var svg = d3.select("#" + divId).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("class", "mapTooltipGraph")
+    .attr("class", className)
   .append("g")
     .attr("transform", 
         "translate(" + margin.left + "," + margin.top + ")");
@@ -26,7 +26,7 @@ function drawMapBlocksPerDateGraph(divId, data){
   // data.forEach(function(d) {
   //   d.value = +d.value;
   // });
-
+console.log(className, '??', data);
   // Scale the range of the data in the domains
   x.domain(data.map(function(d) { return d.date; }));
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -149,8 +149,7 @@ function mapReady(error, data, items) {
           var divId = 'map' + d.id;
           mapTooltip.show(d);
           if(d.count_per_day && d.count_per_day.length){
-            console.log(d.count_per_day);
-            drawMapBlocksPerDateGraph(divId, d.count_per_day);
+            drawMapBlocksPerDateGraph(divId, d.count_per_day, "mapTooltipGraph");
           }
           d3.select(this)
             .style("opacity", 1)

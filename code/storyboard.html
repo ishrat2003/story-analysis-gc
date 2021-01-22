@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-  <title>Story Analysis GC</title>
+  <title>Story Analysis RC</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
@@ -51,23 +51,11 @@
 
   <!-- The Band Section -->
   <div class="w3-container w3-content w3-center w3-padding-64" style="float:center;" id="band">
-    <h2 class="w3-wide">Story Analysis</h2>
-    <p class="w3-opacity"><i>Global Context</i></p>
+    <h2 class="w3-wide">Story Boarding</h2>
+    <p class="w3-opacity"><i>Relative Context</i></p>
     <p class="w3-justify">TODO: description of the tool</p>
    
-    <div id="rectRoundCorners" class="w3-content w3-center w3-padding-16">
-      <p class="w3-center" id="dataAvailable"></p>
-      <p class="w3-center" id="currentRange"></p>
-      <br>
-      <h3>Select inclusive date range for analysis</h3>
-      <input type="text" id="from_datepicker" class="datepicker">
-      <input type="text" id="to_datepicker" class="datepicker">
-      <button id="gcAnalysis" class="button buttonGrey">Submit</button>
-    </div>
-    <div id="worldMap" class="w3-content w3-center w3-padding-16"></div>
-    <div id="dailyTopic" class="dailyTopic"></div>
-    <div id="organizationsBlock" class="organizationsBlock"></div>
-    <div id="personBlock" class="personBlock"></div>
+    
   </div>
 
   <!-- The Tour Section -->
@@ -81,6 +69,40 @@
 
 <!-- End Page Content -->
 </div>
+
+<script>
+<script>
+    var vWidth = 300;
+    var vHeight = 200;
+
+    // Prepare our physical space
+    var g = d3.select('svg').attr('width', vWidth).attr('height', vHeight).select('g');
+
+    // Get the data from our CSV file
+    d3.csv('data.csv', function(error, vCsvData) {
+        if (error) throw error;
+
+        vData = d3.stratify()(vCsvData);
+        drawViz(vData);
+    });
+
+    function drawViz(vData) {
+        // Declare d3 layout
+        var vLayout = d3.pack().size([vWidth, vHeight]);
+
+        // Layout + Data
+        var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.size; });
+        var vNodes = vRoot.descendants();
+        vLayout(vRoot);
+        var vSlices = g.selectAll('circle').data(vNodes).enter().append('circle');
+
+        // Draw on screen
+        vSlices.attr('cx', function (d) { return d.x; })
+            .attr('cy', function (d) { return d.y; })
+            .attr('r', function (d) { return d.r; });
+    }
+</script>
+</script>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
