@@ -40,3 +40,66 @@ table {
 .datepicker {
   width: 255px;
 }
+/* packed bubble chart */
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}
+
+/* Storyboard */
+
+.storyboard{
+  margin-left: -125px;
+  margin-right: -125px;
+}
+
+ul {
+  list-style-type: none;
+}
+ 
+li {
+  margin: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
+  overflow: auto;
+  background-color: whitesmoke;
+}
+ 
+li:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+.selectWrapper{
+  border-radius:36px;
+  display:inline-block;
+  overflow:hidden;
+  background:#cccccc;
+  border:1px solid #cccccc;
+}
+.selectBox{
+  width:140px;
+  height:40px;
+  border:0px;
+  outline:none;
+  float:center;
+}

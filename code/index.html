@@ -5,15 +5,19 @@
   <title>Story Analysis GC</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/jquery-ui-1.12.1.css">
   <link rel="stylesheet" href="/css/w3.css">
   <link rel="stylesheet" href="/css/d3-tip.css">
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/card.css">
   <script src="/js/jquery-3.5.1.min.js"></script>
   <script src="/js/jquery-ui-1.12.1.js"></script>
   <script src="/js/d3.v4.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/home.js"></script>
   <script src="/js/topics.js"></script>
   
   <!-- Map js -->
@@ -43,24 +47,27 @@
 </div>
 
 <!-- Page content -->
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
+<div class="w3-content" style="margin-top:46px">
 
   <!-- The Band Section -->
-  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+  <div class="w3-container w3-content w3-center w3-padding-64" style="float:center;" id="band">
     <h2 class="w3-wide">Story Analysis</h2>
     <p class="w3-opacity"><i>Global Context</i></p>
     <p class="w3-justify">TODO: description of the tool</p>
-    <input type="text" id="from_datepicker" class="datepicker">
-    <input type="text" id="to_datepicker" class="datepicker">
-    <div id="dailyTopic"  class="dailyTopic"></div>
-    <div id="worldMap"></div>
-    <script src="/js/map.js"></script>
-    <script>
-      queue()
-      .defer(d3.json, "/data/world_countries.json")
-      .defer(d3.tsv, "/data/world_population.tsv")
-      .await(mapReady);
-    </script>
+   
+    <div id="rectRoundCorners" class="w3-content w3-center w3-padding-16">
+      <p class="w3-center" id="dataAvailable"></p>
+      <p class="w3-center" id="currentRange"></p>
+      <br>
+      <h3>Select inclusive date range for analysis</h3>
+      <input type="text" id="from_datepicker" class="datepicker">
+      <input type="text" id="to_datepicker" class="datepicker">
+      <button id="gcAnalysis" class="button buttonGrey">Submit</button>
+    </div>
+    <div id="worldMap" class="w3-content w3-center w3-padding-16"></div>
+    <div id="dailyTopic" class="dailyTopic"></div>
+    <div id="organizationsBlock" class="organizationsBlock"></div>
+    <div id="personBlock" class="personBlock"></div>
   </div>
 
   <!-- The Tour Section -->
@@ -85,33 +92,6 @@
   <i class="fa fa-linkedin w3-hover-opacity"></i>
   <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
-
-<script>
-var data = [
-  {"name":"Bob","count":33},
-  {"name":"Robin","count":12},
-  {"name":"Anne","count":41},
-  {"name":"Mark","count":16},
-  {"name":"Joe","count":59},
-  {"name":"Eve","count":38},
-  {"name":"Karen","count":21},
-  {"name":"Kirsty","count":25},
-  {"name":"Chris","count":30},
-  {"name":"Lisa","count":47},
-  {"name":"Tom","count":5},
-  {"name":"Stacy","count":20},
-  {"name":"Charles","count":13},
-  {"name":"Mary","count":29}
-];
-
-displayGcTopics(data);
-
-</script>
-<script>
-  $( function() {
-    $( ".datepicker" ).datepicker();
-  } );
-  </script>
 
 </body>
 </html>

@@ -13,12 +13,14 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/card.css">
+  <link rel="stylesheet" href="/css/stickyNotes.css">
   <script src="/js/jquery-3.5.1.min.js"></script>
   <script src="/js/jquery-ui-1.12.1.js"></script>
   <script src="/js/d3.v4.js"></script>
   <script src="/js/map.js"></script>
   <script src="/js/home.js"></script>
   <script src="/js/topics.js"></script>
+  <script src="/js/packedBubble.js"></script>
   
   <!-- Map js -->
   <script src="/js/d3js.queue.v1.min.js"></script>
@@ -45,7 +47,7 @@
     </div>
   </div>
 </div>
-
+    
 <!-- Page content -->
 <div class="w3-content" style="margin-top:46px">
 
@@ -54,54 +56,128 @@
     <h2 class="w3-wide">Story Boarding</h2>
     <p class="w3-opacity"><i>Relative Context</i></p>
     <p class="w3-justify">TODO: description of the tool</p>
-   
-    
   </div>
 
+
+  <div class="storyboard">
+   <div class="sticky-container">
+      <div class="sticky-outer">
+        <div class="sticky">
+          <svg width="0" height="0">
+            <defs>
+              <clipPath id="stickyClip" clipPathUnits="objectBoundingBox">
+                <path
+                  d="M 0 0 Q 0 0.69, 0.03 0.96 0.03 0.96, 1 0.96 Q 0.96 0.69, 0.96 0 0.96 0, 0 0"
+                  stroke-linejoin="round"
+                  stroke-linecap="square"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <div class="sticky-content">
+            <br class="clear">
+            Hello! I'm a<br>
+            sticky note!
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="testId" style="float:left;padding: 5px 5px 5px 5px;"></div>
+    <div id="testId2" style="float:left;padding: 5px 5px 5px 5px;"></div>
+    <div id="testId3" style="float:left;padding: 5px 5px 5px 5px;"></div>
+  </div>
+
+  <br class="clear">
+
   <!-- The Tour Section -->
-  <div class="w3-black" id="tour">
-    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-      <h2 class="w3-wide w3-center">Summary</h2>
+  <div class="w3-content">
+    <div class="w3-container w3-content w3-padding-64">
+      <h2 class="w3-wide w3-center">Related documents</h2>
       <p class="w3-opacity w3-center"><i>Generate summary</i></p><br>
+      
+      <div class="documents">
+        <div class="selectWrapper" style="float:right;">
+          <select class="selectBox">
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+            <option>Option 4</option>
+          </select>
+        </div>
+        <br class="clear">
+        <ul>
+          <li>
+            <h3>Headline</h3>
+            <p>Lorem ipsum dolor sit amet...</p>
+          </li>
+            
+          <li>
+            <img src="http://lorempixum.com/100/100/nature/2" />
+            <h3>Headline</h3>
+            <p>Lorem ipsum dolor sit amet...</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
 
 <!-- End Page Content -->
 </div>
-
 <script>
-<script>
-    var vWidth = 300;
-    var vHeight = 200;
-
-    // Prepare our physical space
-    var g = d3.select('svg').attr('width', vWidth).attr('height', vHeight).select('g');
-
-    // Get the data from our CSV file
-    d3.csv('data.csv', function(error, vCsvData) {
-        if (error) throw error;
-
-        vData = d3.stratify()(vCsvData);
-        drawViz(vData);
-    });
-
-    function drawViz(vData) {
-        // Declare d3 layout
-        var vLayout = d3.pack().size([vWidth, vHeight]);
-
-        // Layout + Data
-        var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.size; });
-        var vNodes = vRoot.descendants();
-        vLayout(vRoot);
-        var vSlices = g.selectAll('circle').data(vNodes).enter().append('circle');
-
-        // Draw on screen
-        vSlices.attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; })
-            .attr('r', function (d) { return d.r; });
+var sampleData = {
+  "name":"variants",
+  "children":[
+    {
+      "name": "positive",
+      "children":[
+        {"name":"test","size":28},
+        {"name":"test2","size":20},
+        {"name":"test3","size":12},
+        {"name":"test4","size":21},
+        {"name":"test4","size":10}
+      ]
+    },
+    {
+      "name": "negative",
+      "children":[
+        {"name":"test","size":28},
+        {"name":"test2","size":20},
+        {"name":"test3","size":12},
+        {"name":"test4","size":21},
+        {"name":"test4","size":10}
+      ]
+    },
+    {
+      "name": "persistance",
+      "children":[
+        {"name":"test","size":28},
+        {"name":"test2","size":20},
+        {"name":"test3","size":12},
+        {"name":"test4","size":21},
+        {"name":"test4","size":10}
+      ]
     }
-</script>
+  ]
+};
+var sampleData1 = {
+  "name":"variants",
+  "children":[
+    {
+      "name": "negative",
+      "children":[
+        {"name":"test2","size":20},
+        {"name":"test3","size":12}
+      ]
+    }
+  ]
+};
+  
+
+displayPackedBubbles("#testId", 400, 400, "#88cc00", sampleData, true);
+displayPackedBubbles("#testId2", 400, 400, "#e6ffb3", sampleData1, true);
+displayPackedBubbles("#testId3", 400, 400, "#88cc00", sampleData, true);
 </script>
 
 <!-- Footer -->
