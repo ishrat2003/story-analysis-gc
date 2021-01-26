@@ -85,6 +85,8 @@ function displayCard(data, className, blockName){
 $( function() {
     $( ".datepicker" ).datepicker({ dateFormat: dateFormat });
     $("#dailyTopic").hide();
+    $(".explanationBlock").hide();
+    $("#whyExplanationBlock").show();
 
     $('#gcAnalysis').on('click', function(){
         $("#worldMap, #dailyTopic, #organizationsBlock, #personBlock",).html("");
@@ -100,17 +102,38 @@ $( function() {
                 updateDataTexts(result['data']['dates']);
             }
             if(result && result['data'] && result['data']['countries']){
+                $("#whereExplanationBlock").show();
                 loadMap(result['data']['countries']);
             }
             if(result && result['data'] && result['data']['topics']){
+                $("#whatExplanationBlock").show();
                 displayGcTopics(result['data']['topics']);
                 $("#dailyTopic").show();
             }
+            var sample = [
+                {
+                    "display": "a",
+                    "block_count": '0.32'
+                },
+                {
+                    "display": "b",
+                    "block_count": '0.32'
+                },
+                {
+                    "display": "c",
+                    "block_count": '0.34'
+                }
+            ];
             if(result && result['data'] && result['data']['organizations']){
-                displayCard(result['data']['organizations'], 'organizations', 'organizationsBlock');
+                $("#whoExplanationBlock").show();
+                
+                drawDonut('organizationsBlock', sample);
+                //displayCard(result['data']['organizations'], 'organizations', 'organizationsBlock');
             }
             if(result && result['data'] && result['data']['people']){
-                displayCard(result['data']['people'], 'people', 'personBlock');
+                $("#whoExplanationBlock").show();
+                drawDonut('personBlock', sample);
+                //displayCard(result['data']['people'], 'people', 'personBlock');
             }
         },
         dataType: 'json',
