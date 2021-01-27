@@ -1,10 +1,10 @@
 function drawDonut(divId, data){
-    var donut = donutChart()
-        .width(960)
-        .height(500)
+    var donut = donutChart(divId)
+        .width(400)
+        .height(400)
         .cornerRadius(3) // sets how rounded the corners are on each slice
         .padAngle(0.015) // effectively dictates the gap between slices
-        .variable('block_count')
+        .variable('total_block_count_in_range')
         .category('display');
 
     d3.select('#' + divId)
@@ -13,11 +13,11 @@ function drawDonut(divId, data){
     
 }
 
-function donutChart() {
+function donutChart(divId) {
     var width,
         height,
         margin = {top: 10, right: 10, bottom: 10, left: 10},
-        colour = d3.scaleOrdinal(d3.schemeCategory20c), // colour scheme
+        colour = d3.scaleOrdinal(d3.schemeCategory20), // colour scheme
         variable, // value in data that will dictate proportions on chart
         category, // compare data by
         padAngle, // effectively dictates the gap between slices
@@ -58,20 +58,21 @@ function donutChart() {
                 .attr('width', width + margin.left + margin.right)
                 .attr('height', height + margin.top + margin.bottom)
                 .attr('class', 'donut')
+                .style('overflow', 'visible')
               .append('g')
                 .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
             // ===========================================================================================
 
             // ===========================================================================================
             // g elements to keep elements within svg modular
-            svg.append('g').attr('class', 'slices');
-            svg.append('g').attr('class', 'donutLabelName');
-            svg.append('g').attr('class', 'lines');
+            svg.append('g').attr('class', 'slices' + divId);
+            svg.append('g').attr('class', 'donutLabelName' + divId);
+            svg.append('g').attr('class', 'lines' + divId);
             // ===========================================================================================
 
             // ===========================================================================================
             // add and colour the donut slices
-            var path = svg.select('.slices')
+            var path = svg.select('.slices' + divId)
                 .datum(data).selectAll('path')
                 .data(pie)
               .enter().append('path')
@@ -81,13 +82,13 @@ function donutChart() {
 
             // ===========================================================================================
             // add text labels
-            var label = svg.select('.donutLabelName').selectAll('text')
+            var label = svg.select('.donutLabelName' + divId).selectAll('text')
                 .data(pie)
               .enter().append('text')
                 .attr('dy', '.35em')
                 .html(function(d) {
                     // add "key: value" for given category. Number inside tspan is bolded in stylesheet.
-                    return d.data[category] + ': <tspan>' + percentFormat(d.data[variable]) + '</tspan>';
+                    return d.data[category];
                 })
                 .attr('transform', function(d) {
 
@@ -107,7 +108,7 @@ function donutChart() {
 
             // ===========================================================================================
             // add lines connecting labels to slice. A polyline creates straight lines connecting several points
-            var polyline = svg.select('.lines')
+            var polyline = svg.select('.lines' + divId)
                 .selectAll('polyline')
                 .data(pie)
               .enter().append('polyline')
@@ -123,7 +124,7 @@ function donutChart() {
 
             // ===========================================================================================
             // add tooltip to mouse events on slices and labels
-            d3.selectAll('.donutLabelName text, .slices path').call(toolTip);
+            d3.selectAll('.donutLabelName' + divId + ' text, .slices' + divId + ' path').call(toolTip);
             // ===========================================================================================
 
             // ===========================================================================================
@@ -134,19 +135,17 @@ function donutChart() {
 
             // function that creates and adds the tool tip to a selected element
             function toolTip(selection) {
-
                 // add tooltip (svg circle element) when mouse enters label or slice
                 selection.on('mouseenter', function (data) {
-
                     svg.append('text')
-                        .attr('class', 'toolCircle')
+                        .attr('class', 'toolCircle' + divId)
                         .attr('dy', -15) // hard-coded. can adjust this to adjust text vertical alignment in tooltip
                         .html(toolTipHTML(data)) // add text to the circle.
                         .style('font-size', '.9em')
                         .style('text-anchor', 'middle'); // centres text in tooltip
 
                     svg.append('circle')
-                        .attr('class', 'toolCircle')
+                        .attr('class', 'toolCircle' + divId)
                         .attr('r', radius * 0.55) // radius of tooltip circle
                         .style('fill', colour(data.data[category])) // colour based on category mouse is over
                         .style('fill-opacity', 0.35);
@@ -155,30 +154,21 @@ function donutChart() {
 
                 // remove the tooltip when mouse leaves the slice/label
                 selection.on('mouseout', function () {
-                    d3.selectAll('.toolCircle').remove();
+                    d3.selectAll('.toolCircle' + divId).remove();
+                });
+
+                selection.on("click", function(d){ 
+                    var url = '/new.html?key=' + d.data.key;
+                    window.open(url, '_blank');
                 });
             }
 
             // function to create the HTML string for the tool tip. Loops through each key in data object
             // and returns the html string key: value
-            function toolTipHTML(data) {
+            function toolTipHTML(d) {
+                return '<tspan x="0">' + d.data.display + '</tspan>'
+                    + '<tspan x="0" dy="1.2em">Blocks count in range: '+ d.data.total_block_count_in_range + '</tspan>';
 
-                var tip = '',
-                    i   = 0;
-
-                for (var key in data.data) {
-
-                    // if value is a number, format it as a percentage
-                    var value = (!isNaN(parseFloat(data.data[key]))) ? percentFormat(data.data[key]) : data.data[key];
-
-                    // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
-                    // tspan effectively imitates a line break.
-                    if (i === 0) tip += '<tspan x="0">' + key + ': ' + value + '</tspan>';
-                    else tip += '<tspan x="0" dy="1.2em">' + key + ': ' + value + '</tspan>';
-                    i++;
-                }
-
-                return tip;
             }
             // ===========================================================================================
 

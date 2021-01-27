@@ -33,15 +33,15 @@ function displayGcTopics(data){
   y.domain(data.map(function(d) { return d.display; }));
 
   // append the rectangles for the bar chart
-  svg.selectAll(".bar")
+  svg.selectAll(".topicBar")
     .data(data)
   .enter().append("rect")
-    .attr("class", "bar")
+    .attr("class", "topicBar")
     .attr("width", function(d) {return x(d.total_block_count_in_range); } )
     .attr("y", function(d) { return y(d.display); })
     .attr("height", y.bandwidth())
     .on("mousemove", function(d){
-      var html = "<strong>Country: </strong><span class='mapTooltipDetails'>" 
+      var html = "<strong>Topic: </strong><span class='topicTooltipDetails'>" 
         + d.display + "<br></span>" 
         // + "<strong>Blocks count: </strong><span class='details'>" 
         // + d.total_block_count +"<br></span>"
@@ -65,7 +65,6 @@ function displayGcTopics(data){
           return a.date - b.date;
       });
       
-
       tooltip
         .style("left", d3.event.pageX + 50 + "px")
         .style("top", d3.event.pageY - 70 + "px")
@@ -75,7 +74,11 @@ function displayGcTopics(data){
           drawMapBlocksPerDateGraph(divIdForGraph, countPerDay, "topicTooltipGraph");
         }
     })
-    .on("mouseout", function(d){ tooltip.style("display", "none");});
+    .on("mouseout", function(d){ tooltip.style("display", "none");})
+    .on("click", function(d){ 
+      var url = '/new.html?key=' + d.key;
+      window.open(url, '_blank');
+    });
 
   // add the x Axis
   svg.append("g")

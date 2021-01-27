@@ -41,9 +41,7 @@
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-padding-large w3-button" title="More">STORYBOARD<i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#" class="w3-bar-item w3-button">New</a>
-        <a href="#" class="w3-bar-item w3-button">Example: Vaccine</a>
-        <a href="#" class="w3-bar-item w3-button">Example: </a>
+        <a href="/new.html?key=vaccin" class="w3-bar-item w3-button">Example: Vaccine</a>
       </div>
     </div>
   </div>
@@ -80,8 +78,10 @@
       <h3 class="w3-wide">Who?</h3>
       <p class="w3-justify">TODO: description of the tool</p>
     </div>
-    <div id="organizationsBlock" class="organizationsBlock"></div>
-    <div id="personBlock" class="personBlock"></div>
+    <div class="dualDonuts">
+      <div id="organizationsBlock" class="organizationsBlock"></div>
+      <div id="personBlock" class="personBlock"></div>
+    </div>
     <br class="clear">
 
     <div id="whereExplanationBlock" class="w3-content w3-center w3-padding-16 explanationBlock">
@@ -94,8 +94,8 @@
   <!-- The Tour Section -->
   <div class="w3-black" id="tour">
     <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-      <h2 class="w3-wide w3-center">Summary</h2>
-      <p class="w3-opacity w3-center"><i>Generate summary</i></p><br>
+      <h2 id="summaryHeading" class="w3-wide w3-center">Summary</h2>
+      <p id="summaryContent" class="w3-opacity w3-center"></p><br>
     </div>
   </div>
 
@@ -105,13 +105,7 @@
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p class="w3-medium">This is an academic project sponsored by Goldsmiths, Unniversity of London and Byte9.</p>
 </footer>
 
 </body>

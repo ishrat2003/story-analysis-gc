@@ -26,10 +26,11 @@ function drawMapBlocksPerDateGraph(divId, data, className){
   // data.forEach(function(d) {
   //   d.value = +d.value;
   // });
-console.log(className, '??', data);
+
   // Scale the range of the data in the domains
+  var maxY = d3.max(data, function(d) { return d.value; });
   x.domain(data.map(function(d) { return d.date; }));
-  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+  y.domain([0, maxY]);
 
   // append the rectangles for the bar chart
   svg.selectAll(".bar")
@@ -53,7 +54,7 @@ console.log(className, '??', data);
 
   // add the y Axis
   svg.append("g")
-    .call(d3.axisLeft(y));
+    .call(d3.axisLeft(y).ticks(maxY).tickFormat(d3.format(".0f")));
 
     svg.append("text")
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
@@ -72,10 +73,9 @@ function mapReady(error, data, items) {
     .attr('class', 'd3-map-tip')
     .offset([-10, 0])
     .html(function(d) {
-      var html = "<strong>Country: </strong><span class='mapTooltipDetails'>" 
-        + d.properties.name + "<br></span>" 
-        + "<strong>Blocks count: </strong><span class='details'>" 
-        + d.total_block_count +"<br></span>"
+      console.log(d.properties.name);
+      var html = "<strong>Country: </strong><span class='details'>" 
+        + d.properties.name + "<br></span>"
         + "<strong>Blocks count in range: </strong><span class='details'>" 
         + d.total_block_count_in_range +"</span>";
       if (d.count_per_day) {
@@ -118,6 +118,8 @@ function mapReady(error, data, items) {
   data.features.forEach(function(d) { 
     d.total_block_count_in_range = itemsById[d.id] ? itemsById[d.id].total_block_count_in_range : 0;
     d.total_block_count = itemsById[d.id] ? itemsById[d.id].total_block_count: 0;
+    d.key = itemsById[d.id] ? itemsById[d.id].key: null;
+
     d.count_per_day = [];
     if (itemsById[d.id] && itemsById[d.id]["count_per_day"]) {
       for (var key in itemsById[d.id]["count_per_day"]) {
@@ -163,6 +165,11 @@ function mapReady(error, data, items) {
             .style("opacity", 0.8)
             .style("stroke","white")
             .style("stroke-width",0.3);
+        })
+        .on("click", function(d){ 
+          if (!d.key) return;
+          var url = '/new.html?key=' + d.key;
+          window.open(url, '_blank');
         });
 
   svg.append("path")

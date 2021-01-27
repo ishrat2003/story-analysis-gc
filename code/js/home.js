@@ -87,9 +87,10 @@ $( function() {
     $("#dailyTopic").hide();
     $(".explanationBlock").hide();
     $("#whyExplanationBlock").show();
+    $("#summaryHeading").hide();
 
     $('#gcAnalysis').on('click', function(){
-        $("#worldMap, #dailyTopic, #organizationsBlock, #personBlock",).html("");
+        $("#worldMap, #dailyTopic, #organizationsBlock, #personBlock, #summaryContent").html("");
         $.ajax({
         type: "POST",
         headers: {
@@ -110,31 +111,19 @@ $( function() {
                 displayGcTopics(result['data']['topics']);
                 $("#dailyTopic").show();
             }
-            var sample = [
-                {
-                    "display": "a",
-                    "block_count": '0.32'
-                },
-                {
-                    "display": "b",
-                    "block_count": '0.32'
-                },
-                {
-                    "display": "c",
-                    "block_count": '0.34'
-                }
-            ];
             if(result && result['data'] && result['data']['organizations']){
                 $("#whoExplanationBlock").show();
-                
-                drawDonut('organizationsBlock', sample);
-                //displayCard(result['data']['organizations'], 'organizations', 'organizationsBlock');
+                drawDonut('organizationsBlock', result['data']['organizations']);
             }
             if(result && result['data'] && result['data']['people']){
                 $("#whoExplanationBlock").show();
-                drawDonut('personBlock', sample);
-                //displayCard(result['data']['people'], 'people', 'personBlock');
+                drawDonut('personBlock', result['data']['people']);
             }
+            if(result && result['data'] && result['data']['summary']){
+                $("#summaryHeading").show();
+                $("#summaryContent").html(result['data']['summary']);
+            }
+            $("#summaryHeading").show()
         },
         dataType: 'json',
         error: function () {

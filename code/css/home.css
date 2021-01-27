@@ -19,7 +19,9 @@
     background-color: white; 
 }
 
-.bar { fill: rgb(204, 239, 255); }
+.bar { fill: rgb(95, 197, 244); }
+
+.topicBar { fill: rgb(242, 209, 137); }
 
 .button {
     background-color: #4CAF50; /* Green */
@@ -47,4 +49,16 @@
 }
 .donutBlock{
     float: left;
+}
+
+.dualDonuts{
+    margin-left: -50px;
+    margin-right: -50px;
+}
+.organizationsBlock{
+    float: left;
+}
+
+.personBlock{
+    float: right;
 }
