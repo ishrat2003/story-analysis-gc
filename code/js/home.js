@@ -28,7 +28,7 @@ function setDate(dateString, divId){
     $(divId).datepicker('setDate', new Date(dateParts[0], dateParts[1], dateParts[2]));
 }
 
-function getGcDateDate(){
+function getGcDateData(){
     return {
         "start": $('#from_datepicker').datepicker({ dateFormat: dateFormat }).val(),
         "end": $('#to_datepicker').datepicker({ dateFormat: dateFormat }).val()
@@ -76,7 +76,7 @@ function displayCard(data, className, blockName){
         html += '</div>';
         html += '</div>';
         $('#' + rowDiv).append(html);
-        drawMapBlocksPerDateGraph(divId, countPerDay, className + 'Graph');
+        drawMapBlocksPerDateGraph(divId, countPerDay, className + 'Graph', 300, 300);
         index++;
     });
 
@@ -97,7 +97,7 @@ $( function() {
             'Content-Type': 'application/json'
         },
         url: "http://127.0.0.1:3500/topic",
-        data: JSON.stringify(getGcDateDate()),
+        data: JSON.stringify(getGcDateData()),
         success: function(result){
             if(result && result['data'] && result['data']['dates']){
                 updateDataTexts(result['data']['dates']);

@@ -1,8 +1,8 @@
-function drawMapBlocksPerDateGraph(divId, data, className){
+function drawMapBlocksPerDateGraph(divId, data, className, width, height){
   // set the dimensions and margins of the graph
   var margin = {top: 30, right: 30, bottom: 100, left: 60},
-  width = 300 - margin.left - margin.right,
-  height = 300 - margin.top - margin.bottom;
+  width = width - margin.left - margin.right,
+  height = height - margin.top - margin.bottom;
 
   // set the ranges
   var x = d3.scaleBand()
@@ -73,7 +73,6 @@ function mapReady(error, data, items) {
     .attr('class', 'd3-map-tip')
     .offset([-10, 0])
     .html(function(d) {
-      console.log(d.properties.name);
       var html = "<strong>Country: </strong><span class='details'>" 
         + d.properties.name + "<br></span>"
         + "<strong>Blocks count in range: </strong><span class='details'>" 
@@ -151,7 +150,7 @@ function mapReady(error, data, items) {
           var divId = 'map' + d.id;
           mapTooltip.show(d);
           if(d.count_per_day && d.count_per_day.length){
-            drawMapBlocksPerDateGraph(divId, d.count_per_day, "mapTooltipGraph");
+            drawMapBlocksPerDateGraph(divId, d.count_per_day, "mapTooltipGraph", 300, 300);
           }
           d3.select(this)
             .style("opacity", 1)

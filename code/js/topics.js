@@ -71,7 +71,7 @@ function displayGcTopics(data){
         .style("display", "inline-block")
         .html(html);
         if(d.linegraph && d.linegraph.length){
-          drawMapBlocksPerDateGraph(divIdForGraph, countPerDay, "topicTooltipGraph");
+          drawMapBlocksPerDateGraph(divIdForGraph, countPerDay, "topicTooltipGraph", 300, 300);
         }
     })
     .on("mouseout", function(d){ tooltip.style("display", "none");})
