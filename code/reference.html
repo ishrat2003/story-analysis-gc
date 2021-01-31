@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/css/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/stickyNotes.css">
 <style>
 body {font-family: "Lato", sans-serif}
 .mySlides {display: none}
@@ -31,6 +32,30 @@ body {font-family: "Lato", sans-serif}
     <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
   </div>
 </div>
+
+<div class="sticky-container">
+      <div class="sticky-outer">
+        <div class="sticky">
+          <svg width="0" height="0">
+            <defs>
+              <clipPath id="stickyClip" clipPathUnits="objectBoundingBox">
+                <path
+                  d="M 0 0 Q 0 0.69, 0.03 0.96 0.03 0.96, 1 0.96 Q 0.96 0.69, 0.96 0 0.96 0, 0 0"
+                  stroke-linejoin="round"
+                  stroke-linecap="square"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <div class="sticky-content">
+            <br class="clear">
+            Hello! I'm a<br>
+            sticky note!
+            
+          </div>
+        </div>
+      </div>
+    </div>
 
 <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">

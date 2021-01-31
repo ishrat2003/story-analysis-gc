@@ -1,4 +1,4 @@
-var dateFormat = 'yy-mm-dd';
+var dateFormat = 'yyyy-mm-dd';
 var baseUrl = "http://127.0.0.1:3500";
 
 function updateRcDataTexts(data){
@@ -159,7 +159,7 @@ $( function() {
 
     $('#termboardAnalysis').on('click', function(){
         var selectedKeys = updateTermBoard();
-        var url = '/storyboard.html?' + $.param({
+        var url = '/termboard.html?' + $.param({
             'topic_keys': selectedKeys
         });
         window.location.href = url;

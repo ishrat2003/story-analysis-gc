@@ -1,4 +1,5 @@
 
+
 function displayStoryCard(root){
     var svg = d3.select("svg"),
     margin = 20,
