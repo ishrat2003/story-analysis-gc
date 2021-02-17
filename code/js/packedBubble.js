@@ -34,7 +34,11 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
         .data(nodes)
         .enter().append("circle")
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function(d) { return d.children ? color(d.depth) : null; });
+            .style("fill", function(d) { 
+                if (d.data.name == 'old_to_new') return '#858E8E';
+                if (d.data.name == 'new_to_old') return '#D8E5E5';
+                return d.children ? color(d.depth) : null; 
+            });
 
     //if(!displayOnlyChildrenLabel){
         g.selectAll("circle").on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
@@ -56,6 +60,7 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
             //}
             //return d.parent === root ? "inline" : "none"; 
         })
+        .style("float", "center")
         .text(function(d) { return d.data.name; });
 
     var node = g.selectAll("circle,text");

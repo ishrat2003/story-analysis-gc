@@ -45,7 +45,7 @@ function drawMapBlocksPerDateGraph(divId, data, className, width, height){
   // add the x Axis
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d")))
+    .call(d3.axisBottom(x).tickValues(x.domain().filter(function(d,i){ return !(i%5)})).tickFormat(d3.timeFormat("%Y-%m-%d")))
     .selectAll("text")	
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
@@ -65,6 +65,8 @@ function drawMapBlocksPerDateGraph(divId, data, className, width, height){
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
     .attr("transform", "translate("+ (width/2) +","+(height + 80)+")")  // centre below axis
     .text("Date");
+
+  return svg;
 }
 
 function mapReady(error, data, items) {

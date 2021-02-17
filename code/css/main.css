@@ -109,4 +109,24 @@ li:hover {
 .termboardCard{
   float:left;
   padding: 5px 5px 5px 5px;
+  margin: 5px 5px 5px 5px;
+  width:400px;
+  height:400px;
+}
+.termboardBox{
+  float:center;
+  margin: 5px 5px 5px 10px;
+}
+.termboardLightCard{
+  background:#e6ffb3;
+}
+.termboardDarkCard{
+  background:#88cc00;
+}
+.termBoardH2{
+  float:center;
+}
+.whenBox{
+  background:white;
+  margin: 5px 5px 5px 10px;
 }
