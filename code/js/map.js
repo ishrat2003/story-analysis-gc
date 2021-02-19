@@ -169,7 +169,7 @@ function mapReady(error, data, items) {
         })
         .on("click", function(d){ 
           if (!d.key) return;
-          var url = '/new.html?key=' + d.key;
+          var url = '/rc.html?key=' + d.key;
           window.open(url, '_blank');
         });
 

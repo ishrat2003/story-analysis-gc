@@ -31,7 +31,6 @@ body {
     text-align: center;
   }
 
-
 table {
 	font-size: 1em;
 }
@@ -129,4 +128,30 @@ li:hover {
 .whenBox{
   background:white;
   margin: 5px 5px 5px 10px;
+}
+.taskDiv{
+  margin: 5px 5px 5px 10px;
+  border-radius: 10px;
+  background: #e7ebe0;
+  padding: 5px;
+  width: 80%;
+}
+.taskDescription {
+  margin: 10px 10px 10px 10px;
+}
+.taskDiv li{
+  background: #ffffff00;
+  text-align: left;
+  width: 100%;
+  list-style-type: square;
+}
+
+.taskDiv li::before {
+  content: "☙ ";
+  color:  #789644;
+}
+
+.allTasks{
+  float:center;
+  padding: 0 0 0 10%;
 }

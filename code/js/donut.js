@@ -158,7 +158,7 @@ function donutChart(divId) {
                 });
 
                 selection.on("click", function(d){ 
-                    var url = '/new.html?key=' + d.data.key;
+                    var url = '/rc.html?key=' + d.data.key;
                     window.open(url, '_blank');
                 });
             }

@@ -15,7 +15,7 @@
   <script src="/js/jquery-3.5.1.min.js"></script>
   <script src="/js/jquery-ui-1.12.1.js"></script>
   <script src="/js/jquery.validate.min.js"></script>
-  <script src="/js/user.js"></script>
+  <script src="/js/tasks.js"></script>
 </head>
 <body>
 
@@ -33,54 +33,32 @@
   <!-- The Band Section -->
   <div class="w3-container w3-content w3-center w3-padding-64" id="band">
     <h2 class="w3-wide">Tasks</h2>
-    <p class="w3-opacity">
+    <p class="w3-opacity w3-justify">
       Please do the tasks in the given order. The links will be open in a different tab.
       After submitting the task, close the tab and come back to the tasks page to pick up the next one in the given order.
     </p>
+  </div>
 
-    <div id="userDetailsBlock" class="w3-content w3-center w3-padding-16 middle">
-      <form id="storyUserForm" class="surverForm" action="">        
-          <label for="user_code">User Code<br>
-            <p>Unique user identification provided in invitation email.</p>
-          </label>
-          <input type="text" id="user_code" name="user_code" placeholder="Ex: US_LC_1_RC_2">
-          <br>
-          <label for="dob_datepicker">Date of birth</label>
-          <input type="text" id="dob_datepicker" name="dob_datepicker" class="datepicker" placeholder="Ex: 1982-08-16">
-          <br>
-          <label for="experiment_date_datepicker" name="experiment_date_datepicker">Date of experiment</label>
-          <input type="text" id="experiment_date_datepicker" class="datepicker" placeholder="Ex: 2021-04-09">
-          <br>
-          <label for="department">Department</label>
-          <input type="text" id="department" name="department" placeholder="Ex: Computing">
-          <br>
-          <label for="level">Academic level</label>
-          <select id="level" name="level">
-          <option value="">Please select</option>
-          <option value="under_graduate_year_1">Under graduate (year 1)</option>
-          <option value="under_graduate_year_2">Under graduate (year 2)</option>
-          <option value="under_graduate_year_3">Under graduate (year 3)</option>
-          <option value="under_graduate_year_4">Under graduate (year 4)</option>
-          <option value="post_graduate_ma_msc">Post graduate (MA, MSc, Mphil)</option>
-          <option value="post_graduate_phd">PhD</option>
-          </select>
-          <br>
-          <label for="gender">Gender</label>
-          <select id="gender" name="gender">
-          <option value="">Please select</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-          </select>
-          <br>
-          <input type="checkbox" id="disability" name="disability" value="disability">
-          <label for="disability">Check this box if you have any known reading, writing or color disability</label><br>
-          <br>
-          <input type="checkbox" id="agreed" name="agreed" value="agreed" checked="checked">
-          <label for="agreed">Data collected during the experiment will be used for academic research and can be opensource</label><br>
-          <br class="clear" />
-      </form>
-      <input type="button" id="userFormSubmit" value="Submit">
+  <div class="allTasks w3-container w3-content w3-center">
+    <div id="task1Div" class="taskDiv w3-opacity">
+      <h3>Task Set A</h3>
+      <p id="task1P" class="taskDescription w3-justify"></p>
+      <ul id="task1Ul"></ul>
+    </div>
+    <div id="task2Div" class="taskDiv w3-opacity">
+      <h3>Task Set B</h3>
+      <p id="task2P" class="taskDescription w3-justify"></p>
+      <ul id="task2Ul"></ul>
+    </div>
+    <div id="task3Div" class="taskDiv w3-opacity">
+      <h3>Task Set C</h3>
+      <p id="task3P" class="taskDescription w3-justify"></p>
+      <ul id="task3Ul"></ul>
+    </div>
+    <div id="task4Div" class="taskDiv w3-opacity">
+      <h3>Task Set D</h3>
+      <p id="task4P" class="taskDescription w3-justify"></p>
+      <ul id="task4Ul"></ul>
     </div>
   </div> 
 

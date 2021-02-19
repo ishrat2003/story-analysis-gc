@@ -14,7 +14,6 @@ function getGcDateData(){
 
 $( function() {
     $.validator.addMethod("story_date", function(value, element) {
-        console.log('date:', value);
         return this.optional(element) || /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}/.test(value);
     }, "Please specify correct date. Ex: 2021-11-11");
 
@@ -28,7 +27,7 @@ $( function() {
           // on the right side
           user_code: {
               required: true,
-              minlength: 12
+              minlength: 4
           },
           dob_datepicker: {
               required: true,
@@ -74,18 +73,20 @@ $( function() {
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
         submitHandler: function(form) {
-            localStorage.setItem('user_code', $('#user_code').val());
+            var userCode = $('#user_code').val()
+            localStorage.setItem('user_code', userCode);
+            localStorage.setItem('user_id', Number(userCode.replace(/[a-zA-Z\-_]+/, "")));
             localStorage.setItem('dob_datepicker', $('#dob_datepicker').val());
             localStorage.setItem('experiment_date_datepicker', $('#experiment_date_datepicker').val());
             localStorage.setItem('department', $('#department').val());
             localStorage.setItem('level', $('#level').val());
-            localStorage.setItem('agreed', $('#agreed').val());
-            localStorage.setItem('disability', $('#disability').checked());
-            localStorage.setItem('gender', $('#gender').checked());
+            localStorage.setItem('gender', $('#gender').val());
+            localStorage.setItem('disability', $('#disability').prop( "checked" ));
+            localStorage.setItem('agreed', $('#agreed').prop( "checked" ));
             window.location.href = "/tasks.html";
         }
       });
     $('#userFormSubmit').on('click', function(){
-        $('#storyUserForm').submit();
+      $('#storyUserForm').submit();
     });
 });
