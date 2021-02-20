@@ -61,6 +61,11 @@ function loadTasks(){
     ];
     
     var userId = localStorage.getItem('user_id');
+    if(!userId){
+        alert("Please add participant details for loading tasks.");
+        window.location.href = "/";
+        return;
+    }
     var conditionIndex = userId % conditions[0].length;
     var taskConditions = conditions[conditionIndex];
     const lcTasks = loadLcTasks(taskConditions, conditions[0].length);
@@ -71,17 +76,18 @@ function loadTasks(){
         $.each(Object.keys(tasks), function( index, taskType ) {
             var realIndex = index + 1;
             var type = taskType.replace(/_[a-z]+/, '');
+            var condition = taskType.replace(/[a-z]+_/, '');
             var pId = '#task' + realIndex + 'P';
             var ulId = '#task' + realIndex + 'Ul';
             $(pId).text(data[taskType]['description']);
             $.each(tasks[taskType], function(taskIndex, taskName ) {
-                var href = encodeURI("/" + type + ".html?key=" + data[type][taskName]['key']);
+                var href = encodeURI("/" + type + ".html?condition=" + condition 
+                    + "&task_topic=" + taskName + "&key=" 
+                    + data[type][taskName]['key']);
                 $(ulId).append('<li><a target="_blank" href="' + href + '">' + data[type][taskName]['title'] + '</a></li>');
-                console.log(data[type][taskName]);
             });
         });
     });
-    
 
 }
 
