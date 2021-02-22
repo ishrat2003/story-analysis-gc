@@ -54,7 +54,7 @@ input[type=button]:hover {
 
 .rating:not(:checked) > label {
     float:right;
-    width:1em;
+    width:2em;
     padding:0 .1em;
     overflow:hidden;
     white-space:nowrap;
@@ -169,7 +169,7 @@ input[type=button]:hover {
     top: 0;
     width: 4.5rem;
     height: 4.5rem;
-    margin-left: -1.3rem;
+    margin-left: -5.3rem;
     margin-top: -1.3rem;
     background: #4CAF50;
     border-radius: 3rem;

@@ -14,19 +14,27 @@
     "lc": {
         "politics": {
             "title": "Covid-19: Johnson still working on 'roadmap' to ease lockdown",
-            "key": "uk-politics-56123889"
+            "key": "uk-politics-56123889",
+            "date": "2021-02-19",
+            "link": "https://www.bbc.co.uk/news/uk-politics-56123889"
         },
         "coronavirus": {
             "title": "UK sees further drop in coronavirus numbers",
-            "key": "health-56123695"
+            "key": "health-56123695",
+            "date": "2021-02-19",
+            "link": "https://www.bbc.co.uk/news/health-56123695"
         }, 
         "science": {
             "title": "Mars landing: Photo shows Perseverance about to touch down",
-            "key": "science-environment-56133281"
+            "key": "science-environment-56133281",
+            "date": "2021-02-19",
+            "link": "https://www.bbc.co.uk/news/science-environment-56133281"
         },
         "vaccination": {
             "title": "Covid-19: NI vaccination programme extended to carers",
-            "key": "uk-northern-ireland-56102348"
+            "key": "uk-northern-ireland-56102348",
+            "date": "2021-02-19",
+            "link": "https://www.bbc.co.uk/news/uk-northern-ireland-56102348"
         }
     },
     "rc": {
