@@ -214,3 +214,7 @@ li:hover {
 .lcRawRow {
   height: 200px;
 }
+
+#lc_text_display li, #lc_text_display ul, #lc_text_display ol {
+  all: none;
+}

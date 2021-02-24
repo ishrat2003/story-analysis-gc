@@ -18,6 +18,14 @@
   <script src="/js/d3-scale-radial.js"></script>
   <script src="/js/d3-selection-multi.v1.js"></script>
   <script src="/js/lc.js"></script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PFFKHW3');</script>
+  <!-- End Google Tag Manager -->
+
 </head>
 <body>
 
@@ -40,6 +48,7 @@
     <h2 class="w3-wide">Local Context Story Analysis</h2>
     <p id="taskDescription" class="w3-justify"></p>
     <h3 id="taskTitle" class="w3-center"></h3>
+    <p id="publishedDate" class="w3-center"></p>
 
     <div id="lc_viz" class="w3-content w3-center w3-padding-16 explanationBlock" style="display:none">
       <div id="lc_viz_display">
@@ -114,7 +123,7 @@
             <input type="text" id="where_location" name="where_location" placeholder="One/Comma separated list of locations">
             <br class="clear">
 
-            <label for="why"><span class="objective">Why</span> did the story happen?</label>
+            <label for="why"><span class="objective">Why</span> is the story important?</label>
             <input type="text" id="why" name="why" placeholder="One/Comma separated list of reasons">
             <br class="clear">
             
@@ -124,7 +133,7 @@
 
             <label for="rate">
               <span class="objective">Ease of comprehension</span><br>
-              (1 = very easy, 1 = easy, 3 = ok, 4 = hard, 5 = very hard)
+              (1 = very hard, 2 = hard, 3 = ok, 4 = easy, 5 = very easy)
             </label>
             <br class="clear">
             <div class="rating">

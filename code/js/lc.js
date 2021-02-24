@@ -232,13 +232,12 @@ function loadCommonDetails(condition, taskTopic){
 }
 
 function loadLcText(data){
-    $('#lc_text_display').text(data['content']);
+    $('#lc_text_display').html(data['content']);
 }
 
 function loadLcViz(data){
     var lcResponse = data;
     lcResponse['concepts']['story_words'][0]['pure_word'] = '← - ' + lcResponse['concepts']['story_words'][0]['pure_word'];
-    $('#lcTitle').html('<h2 class="lcMainTitle">' + lcResponse['title'] + '</h2>');
     showRaw(lcResponse);
     $('#lcLoading').hide();
     $('#lcVizualization').html('');
@@ -252,7 +251,8 @@ function loadLcViz(data){
         displayKnowledgeGraph(lcResponse['concepts']['graph']['links'], lcResponse['concepts']['graph']['nodes']);
         $('#knowledgegraphLoading').hide();
     }
-    $('#lc_viz_display .loadingImage, #taskTitle').hide();
+    $('#lc_viz_display .loadingImage').hide();
+    $('#taskTitle').text(lcResponse['title']);
 }
 
 function load(condition, key){
@@ -267,6 +267,10 @@ function load(condition, key){
         loadLcText(data);
     }
     $('#lc_text_questions, #lcVizualizationLabels').show();
+
+    var date = data['pubDate'].substring(0, 10);
+    var dateParts = date.split("-")
+    $('#publishedDate').html(dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0]);
 }
 
 function fetchAndLoad(condition, key){
