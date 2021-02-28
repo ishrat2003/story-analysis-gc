@@ -12,6 +12,17 @@ function getGcDateData(){
     };
 }
 
+function fillToday(){
+    var today = new Date();
+    var todayString = today.getFullYear() + '-' + getDoubleDigit(today.getMonth() + 1) + '-' + getDoubleDigit(today.getDate());
+    $('#from_datepicker').val(todayString);
+    $('#to_datepicker').val(todayString);
+}
+
+function getDoubleDigit(numberString){
+    return String(numberString).padStart(2, '0');
+}
+
 $( function() {
     $.validator.addMethod("story_date", function(value, element) {
         return this.optional(element) || /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}/.test(value);

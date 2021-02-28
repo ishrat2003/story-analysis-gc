@@ -45,7 +45,7 @@ function drawMapBlocksPerDateGraph(divId, data, className, width, height){
   // add the x Axis
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickValues(x.domain().filter(function(d,i){ return !(i%5)})).tickFormat(d3.timeFormat("%Y-%m-%d")))
+    .call(d3.axisBottom(x).tickValues(x.domain().filter(function(d,i){ return !(i%1)})).tickFormat(d3.timeFormat("%Y-%m-%d")))
     .selectAll("text")	
         .style("text-anchor", "end")
         .attr("dx", "-.8em")

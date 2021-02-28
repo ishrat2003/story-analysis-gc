@@ -611,3 +611,5 @@ $('#why').val("test, test, test");
 $('#summary').val("test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test");
 $('#star5').click();
 */
+
+// https://medium.com/@vsvinchuk/track-copy-events-custom-dimensions-you-should-consider-implementing-for-more-precise-tracking-via-b658f4c4068d

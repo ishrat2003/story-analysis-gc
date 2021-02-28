@@ -1,5 +1,4 @@
-var dateFormat = 'yyyy-mm-dd';
-var baseUrl = "http://127.0.0.1:3500";
+const analysisUrl = "http://127.0.0.1:3500";
 
 function updateRcDataTexts(data){
     var text = data['grand_total'] + " news available for the topic \""  + data['main_topic'] + "\" are ";
@@ -21,6 +20,8 @@ function updateRcDataTexts(data){
     }
     currentText += '.';
     $("#currentRange").text(currentText);
+    $('#from_datepicker').val(data['dates']['start']);
+    $('#to_datepicker').val(data['dates']['end']);
 
 }
 
@@ -50,11 +51,12 @@ function loadTags(subtopics, total, mainTopic){
     var maxSize = subtopics[0]['size'];
     var gap = maxSize / 6;
     var selectedTopicHtml = getTopicLinkHtml(getMainTopic(), mainTopic, total, 0, false, 'selected');
-    var topicsHtml = getTopicLinkHtml(getMainTopic(), mainTopic, total, 0, true, '');
+    var topicsHtml = '';
 
     subtopics.forEach(item => {
         var sizeIndex = Math.ceil(item['size'] / gap);
-        topicsHtml += getTopicLinkHtml(item['key'], item['display'] , item['size'], sizeIndex, false, '');
+        var selected = (item['display'] === mainTopic);
+        topicsHtml += getTopicLinkHtml(item['key'], item['display'] , item['size'], sizeIndex, selected, '');
     });
 
     $('#subTopics').append('<ul>' + topicsHtml + '</ul>')
@@ -124,12 +126,15 @@ function loadRc(){
         return;
     }
     $("#linegraph, #subTopics, #termBoardTopics").html("");
+    $('#graphTop').show();
+    $('#graphTop .loadingImage').show();
+    
     $.ajax({
         type: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        url: baseUrl + "/topic",
+        url: analysisUrl + "/topic",
         data: JSON.stringify(data),
         success: function(result){
             if(result && result['data'] && result['data']['dates']){
@@ -140,21 +145,41 @@ function loadRc(){
             }
             if(result && result['data'] && result['data']['sub_topics']){
                 loadTags(result['data']['sub_topics'], result['data']['total_in_range'], result['data']['main_topic']);
-            }     
+            }
+            $('#graphTop').show();
+            $('#graphTop .loadingImage').hide();   
         },
         dataType: 'json',
         error: function () {
-            console.log("error");
+            $('#graphTop').show();
+            $('#graphTop .loadingImage').hide();
+            console.log("server error");
         }
     });
 }
 
 $( function() {
+    $('.step').hide();
+    $('#graphTop').show();
+
     $( ".datepicker" ).datepicker({ dateFormat: dateFormat });
     loadRc();
 
-    $('#rcAnalysis').on('click', function(){
+    $('#filterAnalysis').on('click', function(){
+        $('.step').hide();
+        $('#graphTop').show();
+        $('#graphTop .loadingImage').show();
         loadRc();
+    });
+
+    $('#rcAnalysisFilter').on('click', function(){
+        $('.step').hide();
+        $('#filter').show();
+    });
+
+    $('#rcAnalysisTermboard').on('click', function(){
+        $('.step').hide();
+        $('#termboard').show();
     });
 
     $('#termboardAnalysis').on('click', function(){

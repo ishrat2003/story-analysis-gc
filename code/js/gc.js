@@ -1,4 +1,4 @@
-var dateFormat = 'yy-mm-dd';
+const analysisUrl = "http://127.0.0.1:3500";
 
 function updateDataTexts(dates){
     var text = "Data available ";
@@ -21,18 +21,6 @@ function updateDataTexts(dates){
     currentText += '.';
     $("#currentRange").text(currentText);
 
-}
-
-function setDate(dateString, divId){
-    var dateParts = dateString.split("-")
-    $(divId).datepicker('setDate', new Date(dateParts[0], dateParts[1], dateParts[2]));
-}
-
-function getGcDateData(){
-    return {
-        "start": $('#from_datepicker').datepicker({ dateFormat: dateFormat }).val(),
-        "end": $('#to_datepicker').datepicker({ dateFormat: dateFormat }).val()
-    };
 }
 
 function loadMap(countries){
@@ -82,53 +70,59 @@ function displayCard(data, className, blockName){
 
 }
 
+function loadGc(){
+    $("#worldMap, #dailyTopic, #organizationsBlock, #personBlock, #summaryContent").html("");
+    $.ajax({
+    type: "POST",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    url: analysisUrl + "/topic",
+    data: JSON.stringify(getGcDateData()),
+    success: function(result){
+        if(result && result['data'] && result['data']['dates']){
+            updateDataTexts(result['data']['dates']);
+        }
+        if(result && result['data'] && result['data']['countries']){
+            $("#whereExplanationBlock").show();
+            loadMap(result['data']['countries']);
+        }
+        if(result && result['data'] && result['data']['topics']){
+            $("#whatExplanationBlock").show();
+            displayGcTopics(result['data']['topics']);
+            $("#dailyTopic").show();
+        }
+        if(result && result['data'] && result['data']['organizations']){
+            $("#whoExplanationBlock").show();
+            drawDonut('organizationsBlock', result['data']['organizations']);
+        }
+        if(result && result['data'] && result['data']['people']){
+            $("#whoExplanationBlock").show();
+            drawDonut('personBlock', result['data']['people']);
+        }
+        if(result && result['data'] && result['data']['summary']){
+            $("#summaryHeading").show();
+            $("#summaryContent").html(result['data']['summary']);
+        }
+        $("#summaryHeading").show()
+    },
+    dataType: 'json',
+    error: function () {
+        console.log("error");
+    }
+    });
+}
 $( function() {
-    $( ".datepicker" ).datepicker({ dateFormat: dateFormat });
+    $( ".datepicker" ).datepicker({
+        dateFormat: dateFormat 
+    });
     $("#dailyTopic").hide();
     $(".explanationBlock").hide();
     $("#whyExplanationBlock").show();
     $("#summaryHeading").hide();
-
     $('#gcAnalysis').on('click', function(){
-        $("#worldMap, #dailyTopic, #organizationsBlock, #personBlock, #summaryContent").html("");
-        $.ajax({
-        type: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        url: "http://127.0.0.1:3500/topic",
-        data: JSON.stringify(getGcDateData()),
-        success: function(result){
-            if(result && result['data'] && result['data']['dates']){
-                updateDataTexts(result['data']['dates']);
-            }
-            if(result && result['data'] && result['data']['countries']){
-                $("#whereExplanationBlock").show();
-                loadMap(result['data']['countries']);
-            }
-            if(result && result['data'] && result['data']['topics']){
-                $("#whatExplanationBlock").show();
-                displayGcTopics(result['data']['topics']);
-                $("#dailyTopic").show();
-            }
-            if(result && result['data'] && result['data']['organizations']){
-                $("#whoExplanationBlock").show();
-                drawDonut('organizationsBlock', result['data']['organizations']);
-            }
-            if(result && result['data'] && result['data']['people']){
-                $("#whoExplanationBlock").show();
-                drawDonut('personBlock', result['data']['people']);
-            }
-            if(result && result['data'] && result['data']['summary']){
-                $("#summaryHeading").show();
-                $("#summaryContent").html(result['data']['summary']);
-            }
-            $("#summaryHeading").show()
-        },
-        dataType: 'json',
-        error: function () {
-            console.log("error");
-        }
-        });
+        loadGc();
     });
+    fillToday();
+    loadGc();
 });
