@@ -11,16 +11,17 @@ var lcColor = {
     "person": "#1b2bde",
     "location": "#784698",
     "organization": "#43a9a7",
-    "others": "#5e615e"
+    "others": "#5e615e",
+    "time": "#FFA533"
 };
 
 var kgColor = {
     "organization": "#43a9a7",
-    "time": "#f58207",
+    "time": "#FFA533",
     "person": "#1b2bde",
     "location": "#784698",
-    "others": "#ffd700",
-    "default": "grey"
+    "others": "#5e615e",
+    "default": "#259328bf"
   };
 
 function getUrlParams(key){
@@ -220,6 +221,7 @@ function loadCommonDetails(condition, taskTopic){
         $('#story_source').val('bbc');
         $('#open_timestamp').val(Date.now());
         $('#open_date_time').val(getCurrentDateTime());
+        $('#condition').val(condition);
 
         $('#story_date').val(data['lc'][taskTopic]['date']);
         $('#story_link').val(data['lc'][taskTopic]['link']);
@@ -233,6 +235,7 @@ function loadCommonDetails(condition, taskTopic){
 
 function loadLcText(data){
     $('#lc_text_display').html(data['content']);
+    $('#lc_text').show();
 }
 
 function loadLcViz(data){
@@ -251,6 +254,7 @@ function loadLcViz(data){
         displayKnowledgeGraph(lcResponse['concepts']['graph']['links'], lcResponse['concepts']['graph']['nodes']);
         $('#knowledgegraphLoading').hide();
     }
+    $('#lc_viz').show();
     $('#lc_viz_display .loadingImage').hide();
     $('#taskTitle').text(lcResponse['title']);
 }
@@ -263,8 +267,13 @@ function load(condition, key){
     data = JSON.parse(data);
     if(condition == 'viz'){
         loadLcViz(data);
-    }else{
+    }else if(condition == 'text'){
         loadLcText(data);
+    }else{
+        loadLcViz(data);
+        loadLcText(data);
+        $('#knowledgegraph').show();
+        $('#knowledgegraphLoading').show();
     }
     $('#lc_text_questions, #lcVizualizationLabels').show();
 
@@ -282,6 +291,7 @@ function fetchAndLoad(condition, key){
         method: "POST",
         contentType: "application/json"
     }).done(function (data) {
+        console.log(key);
         localStorage.setItem(key, JSON.stringify(data));
         load(condition, key);
     });
@@ -289,8 +299,8 @@ function fetchAndLoad(condition, key){
 
 function displayKnowledgeGraph(links, nodes) {
     var margin = {top: 10, right: 10, bottom: 10, left: 10},
-        width = 600 - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        width = 800 - margin.left - margin.right,
+        height = 800 - margin.top - margin.bottom;
 
     d3.select("#knowledgegraphVizualization").select("svg").remove();
     d3.select("#knowledgegraphVizualization").select("div").remove();
@@ -393,7 +403,7 @@ function displayKnowledgeGraph(links, nodes) {
                 .style("opacity", .9);		
             tooltip.html(
                 '<b>' + d.name + '</b></br>'
-                + '<b style="color:red;">' + d.label + '</b></br>'
+                + '<b>' + d.label + '</b></br>'
                 + '<p>' + d.tooltip + '</p>'
                 )	
                 .style("left", (d3.event.pageX) + "px")		
@@ -576,7 +586,7 @@ $.validator.addMethod("easeCheck", function(value, element) {
 $(function() {
     var condition = getUrlParams('condition');
     var taskTopic = getUrlParams('task_topic');
-    var key = 'lc_' + taskTopic
+    var key = taskTopic ? 'lc_' + taskTopic : getUrlParams('key');
     var alreadyFetchedData = localStorage.getItem(key);
 
     if (condition && taskTopic) {
@@ -589,15 +599,17 @@ $(function() {
             $('#lcContentForm').submit();
         });
     }else{
-        loadLcSurveyFormValidation();
+        if(condition != 'all'){
+            loadLcSurveyFormValidation();
+            $('#storySurveyFormSubmit').on('click', function(){
+                $('#storySurveyForm').submit();
+            });
+        }
         if (alreadyFetchedData) {
             load(condition, key);
         } else {
             fetchAndLoad(condition, key);
         }
-        $('#storySurveyFormSubmit').on('click', function(){
-            $('#storySurveyForm').submit();
-        });
     }
 });
 

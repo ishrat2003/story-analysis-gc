@@ -43,7 +43,7 @@
     <p id="taskDescription" class="w3-justify"></p>
     <h3 id="taskTitle" class="w3-center"></h3>
 
-    <div id="lc_viz" class="w3-content w3-center w3-padding-16 explanationBlock" style="display:none">
+    <div id="lc_viz" class="w3-content w3-center w3-padding-16 explanationBlock">
         <div id="lc_viz_display">
             <img class="loadingImage" src="images/loading.gif" alt="Loading">
             <div id="lcTitle"></div>
@@ -75,29 +75,6 @@
     </div>
     <div id="lc_text" class="w3-content w3-center w3-padding-16 lcRawTextBlock" style="display:none">
       <div id="lc_text_display" class="w3-justify lcRawText"><img class="loadingImage" src="images/loading.gif" alt="Loading"></div>
-    </div>
-    
-    <br class="clear">
-    <div id="lc_text_questions" class="w3-content w3-center w3-padding-16">
-      <div id="surveyTitle">Please enter the news and article details for Story Analysis.</div>
-      <div id="lcContent" class="lcContent">
-        <p id="message"></p> 
-        <p id="error"></p>
-        <form id="lcContentForm" class="lcContentForm" action="">        
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" placeholder="Article/news title here">
-
-            <br class="clear">
-            <label for="pubDate">Published date</label>
-            <input type="text" id="pubDate" name="pubDate" class="datepicker" placeholder="Ex: 1982-08-16">
-
-            <br class="clear">
-            <label for="content">Content</label>
-            <textarea id="content" name="content" rows="10" placeholder="Main body text without image, caption and tables."></textarea>
-            
-        </form>
-        <input type="button" id="lcContentFormSubmit" value="Submit">
-      </div>
     </div>
   </div>
 

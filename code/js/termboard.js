@@ -17,8 +17,9 @@ function getTopics(){
 function displayDocuments(documents){
     if(documents.length){
         documents.forEach(item => {
+            var key = item.url.replace('https://www.bbc.co.uk/news/', '');
             var liHtml = '<li>'
-                + '<h3><a target="_blank" href="' + item.url + '">' + item.title + '</a></h3>'
+                + '<h3><a target="_blank" href="/lc_load.html?condition=all&key=' + key + '">' + item.title + '</a></h3>'
                 + '<span>' + item.date + '</span>'
                 + '<p>' + item.description + '</p>'
                 + '</li>';
