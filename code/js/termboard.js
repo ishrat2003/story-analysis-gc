@@ -1,17 +1,25 @@
 var dateFormat = 'yyyy-mm-dd';
 var baseUrl = "http://127.0.0.1:3500";
 
-function getTopics(){
+function getParams(){
     var queryString = window.location.search;
     queryString = decodeURIComponent(queryString.substring(1, queryString.length));
     var params = queryString.split("&");
+    
     var topicKeys = [];
+    var from, to;
     if(params.length){
         params.forEach(item => {
-            topicKeys.push(item.replace(/topic_keys\[\]=/, ''));
+            if(item.includes("topic_keys")){
+                topicKeys.push(item.replace(/topic_keys\[\]=/, ''));
+            }else if(item.includes("from")){
+                from = item.replace(/from\[\]=/, '');
+            }else if(item.includes("to")){
+                to = item.replace(/to\[\]=/, '');
+            }
         });
     }
-    return topicKeys;
+    return [topicKeys, from, to];
 }
 
 function displayDocuments(documents){
@@ -60,10 +68,13 @@ function drawBubbleCard(data, cardColor, divId){
 }
 
 function loadTermBoard(order, direction){
+    var params = getParams()
     var data = {
-        'topic_keys': getTopics(),
+        'topic_keys': params[0],
         'order': order,
-        'direction': direction
+        'direction': direction,
+        'from': params[1],
+        'to': params[2]
     };
     $.ajax({
         type: "POST",

@@ -185,7 +185,9 @@ $( function() {
     $('#termboardAnalysis').on('click', function(){
         var selectedKeys = updateTermBoard();
         var url = '/termboard.html?' + $.param({
-            'topic_keys': selectedKeys
+            'topic_keys': selectedKeys,
+            'from': $('#from_datepicker').val(),
+            'to': $('#to_datepicker').val()
         });
         window.location.href = url;
     });

@@ -4,6 +4,8 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
     height = boxHeight - margin.top - margin.bottom,
     zoomMargin = 20;
 
+    var tooltip = d3.select(divId).append("div").attr("class", "toolTipTermBoard");
+
     var svg = d3.select(divId).append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
@@ -43,6 +45,41 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
     //if(!displayOnlyChildrenLabel){
         g.selectAll("circle").on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
     //}
+
+    g.selectAll("circle").on("mousemove", function(d){
+        if (!d.data.children || !d.data.children.length) return;
+        console.log(d);
+        $( "#sankey" ).remove();
+        var heading = 'Consistent terms: ';
+        var description = 'Terms that are used constiently in historical documents and lastest documents.';
+        if (d.data.name == 'old_to_new') {
+            var heading = 'Historical terms: ';
+            var description = 'Terms that are used in historical documents mostly.';
+        }
+        if (d.data.name == 'new_to_old') {
+            var heading = 'Latest terms: ';
+            var description = 'Terms that are used in latest documents mostly.';
+        }
+        var html = "<strong>" + heading + "</strong><br><p>" + description + "</p><ul>";
+        d.data.children.forEach(element => {
+            html += '<li>' + element.name + '</li>';
+            
+        });
+        html += '</ul><div id="sankey"></div>'
+        
+        tooltip
+          .style("left", d3.event.pageX + 50 + "px")
+          .style("top", d3.event.pageY - 70 + "px")
+          .style("display", "inline-block")
+          .html(html);
+        drawSankey('sankey', [{
+            source: 'A',
+            target: 'B',
+            value: 2
+          }]);
+      })
+      .on("mouseout", function(d){ tooltip.style("display", "none");})
+
 
     var text = g.selectAll("text")
         .data(nodes)

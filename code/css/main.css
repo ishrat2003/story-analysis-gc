@@ -222,3 +222,14 @@ li:hover {
 .time{
   color: #FFA533;
 }
+
+.toolTipTermBoard{
+  position: absolute;
+  display: none;
+  min-width: auto;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #161517;
+  padding: 10px;
+  text-align: left;
+}
