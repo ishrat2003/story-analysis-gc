@@ -17,8 +17,7 @@
   <script src="/js/d3.v4.js"></script>
   <script src="/js/d3-scale-radial.js"></script>
   <script src="/js/d3-selection-multi.v1.js"></script>
-  <script src="/js/lc.js"></script>
-  <!-- Google Tag Manager -->
+   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -26,6 +25,9 @@
   })(window,document,'script','dataLayer','GTM-PFFKHW3');</script>
   <!-- End Google Tag Manager -->
 
+
+  <script src="/js/populateData.js"></script>
+  <script src="/js/lc.js"></script>
 </head>
 <body>
 
@@ -46,7 +48,7 @@
   <!-- The Band Section -->
   <div class="w3-container w3-content w3-center w3-padding-64" style="float:center;" id="band">
     <h2 class="w3-wide">Local Context Story Analysis</h2>
-    <p id="taskDescription" class="w3-justify"></p>
+    <p id="taskDescription" class="w3-center"></p>
     <h3 id="taskTitle" class="w3-center"></h3>
     <p id="publishedDate" class="w3-center"></p>
 
@@ -85,8 +87,18 @@
       <div id="lcContent" class="lcContent">
         <p id="message"></p> 
         <p id="error"></p>
-        <form id="storySurveyForm" class="lcContentForm" action="">        
+        <form id="storySurveyForm" class="lcContentForm" action="">
+            <input type="hidden" id="survey_type" name="survey_type" value="lc">
+
             <input type="hidden" id="user_code" name="user_code" value="">
+            <input type="hidden" id="gender" name="gender" value="">
+            <input type="hidden" id="experiment_date_datepicker" name="experiment_date_datepicker" value="">
+            <input type="hidden" id="agreed" name="agreed" value="">
+            <input type="hidden" id="level" name="level" value="">
+            <input type="hidden" id="department" name="department" value="">
+            <input type="hidden" id="dob_datepicker" name="dob_datepicker" value="">
+            <input type="hidden" id="disability" name="disability" value="">
+
             <input type="hidden" id="story_source" name="story_source" value="bbc">
 
             <input type="hidden" id="open_timestamp" name="open_timestamp" value="">
@@ -130,7 +142,7 @@
             <br class="clear">
             
             <label for="summary">Write a <span class="objective">summary</span> of the story in a few sentences.</label>
-            <textarea id="summary" name="summary" rows="5" cols="50" placeholder="Few sentences about the story"></textarea>
+            <textarea id="summary" name="summary" rows="5" cols="50" placeholder="Few sentences about the story. Minimum 100 characters"></textarea>
             <br class="clear">
 
             <label for="rate">

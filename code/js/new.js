@@ -100,8 +100,8 @@ function getTopicLinkHtml(key, display, total, sizeIndex, addSpan, prefix){
         + '" data-display="' + display + '" '
         + '" data-size_index="' + sizeIndex + '" '
         + '" data-total="' + total + '" '
-        + 'class="tagLink size' + sizeIndex + '">' + display  
-        + ' (' + total + ')';
+        + 'class="tagLink size' + sizeIndex + '">' + display ; 
+        //+ ' (' + total + ')';
     if (addSpan) {
         topicsHtml += '<span class="spanTick" id="span' + prefix + key  + '">&#10003;</span>';
     }

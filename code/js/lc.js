@@ -100,13 +100,13 @@ function displayLc(data, statFiedName){
         svg.selectAll('text')
         .on("mouseover", function(d) {
             var html = '<h3 style="color:green;" class="center">' + d.pure_word + '</h3>'
-            + '<b>Category: </b>' + ( d.category || d.type || '') + '<br>'
-            + '<b>Sentiment: </b>' + ( d.sentiment || '') + '<br>'
-            + '<b>Occurrence: </b>' + d.count + '<br>'
-            + '<b>Forward position weight: </b>' + d.position_weight_forward.toFixed(2) + '<br>'
-            + '<b>Backward position weight: </b>' + d.position_weight_backward.toFixed(2) + '<br>';
+                + '<b>Category: </b>' + ( d.category || d.type || '') + '<br>'
+                + '<b>Sentiment: </b>' + ( d.sentiment || '') + '<br>'
+                + '<b>Occurrence: </b>' + d.count + '<br>'
+                + '<b>Forward position weight: </b>' + d.position_weight_forward.toFixed(2) + '<br>'
+                + '<b>Backward position weight: </b>' + d.position_weight_backward.toFixed(2) + '<br>';
             if (d.tooltip !== d.pure_word){
-            html += '<p>' + d.tooltip + '</p>';
+                html += '<p>' + d.tooltip + '</p>';
             }
             
             tooltip.style("display", "inline");	
@@ -114,13 +114,18 @@ function displayLc(data, statFiedName){
                 .duration(200)		
                 .style("opacity", .9);		
             tooltip.html(html);	
-            })					
-            .on("mouseout", function(d) {
-                tooltip.style("display", "none");		
-                tooltip.transition()
-                    .duration(500)		
-                    .style("opacity", 0);	
-            })
+            dataLayer.push({
+                'event': 'mouseover_lc_term',
+                'lc_pure_word': d.pure_word,
+                'lc_category': d.category
+            });
+        })					
+        .on("mouseout", function(d) {
+            tooltip.style("display", "none");		
+            tooltip.transition()
+                .duration(500)		
+                .style("opacity", 0);	
+        })
 }
 
 function showRaw(data){
@@ -216,17 +221,11 @@ function getCurrentDateTime(){
 }
 function loadCommonDetails(condition, taskTopic){
     $.getJSON( "data/tasks.json", function( data ) {
-        var userCode = localStorage.getItem('user_code');
-        $('#user_code').val(userCode);
         $('#story_source').val('bbc');
-        $('#open_timestamp').val(Date.now());
-        $('#open_date_time').val(getCurrentDateTime());
         $('#condition').val(condition);
-
         $('#story_date').val(data['lc'][taskTopic]['date']);
         $('#story_link').val(data['lc'][taskTopic]['link']);
         $('#story_title').val(data['lc'][taskTopic]['title']);
-
         $('#taskTitle').text(data['lc'][taskTopic]['title']);
         $('#taskDescription').text(data['lc_' + condition]['description']);
         $('#lc_' + condition).show();
@@ -520,13 +519,7 @@ function loadLcSurveyFormValidation(){
             summary: { required: true, minlength: 100 } 
         },
         submitHandler: function(form) {
-            var end = Date.now();
-            $('#close_timestamp').val(end);
-            $('#close_date_time').val(getCurrentDateTime());
-
-            var start = $('#open_timestamp').val();
-            var diff = start - end;
-            $('#time_taken_in_seconds').val(diff);
+            populateEndTime();
             submitSurveyForm();
         }
     });

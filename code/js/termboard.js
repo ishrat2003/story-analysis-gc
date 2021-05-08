@@ -51,10 +51,11 @@ function drawWhenBarChart(rows){
 function drawBubbleCard(data, cardColor, divId){
     var children = [];
     ['consistent', 'old_to_new', 'new_to_old'].forEach(node => {
-        if(data[node].length){
+        if(data[node] && data[node].length){
             children.push({
                 "name": node,
-                "children": data[node]
+                "children": data[node],
+                "relations": data[node + '_relations']
             });
         }
     });

@@ -42,14 +42,23 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
                 return d.children ? color(d.depth) : null; 
             });
 
-    //if(!displayOnlyChildrenLabel){
-        g.selectAll("circle").on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
-    //}
+    g.selectAll("circle").on("click", function(d) { 
+        d3.select("#sankey").remove();
+        $('#sankey').remove();
+        $('#sankeyModal').modal();
+        var listHtml = '<div id="sankeyList"><h2>Top (5) sub-terms\' relations</h2><br></div>';
+        $('#sankeyModal').html('<a href="#" rel="modal:close" class="close">X</a><div><div id="sankey"></div>' + listHtml + '</div>')
+        if(d.data.relations){
+            // console.log(d.data.relations)
+            drawSankey('sankey', d.data.relations);
+        }
+        //if (focus !== d) zoom(d), d3.event.stopPropagation(); 
+    });
+    
 
     g.selectAll("circle").on("mousemove", function(d){
         if (!d.data.children || !d.data.children.length) return;
-        console.log(d);
-        $( "#sankey" ).remove();
+
         var heading = 'Consistent terms: ';
         var description = 'Terms that are used constiently in historical documents and lastest documents.';
         if (d.data.name == 'old_to_new') {
@@ -62,23 +71,17 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
         }
         var html = "<strong>" + heading + "</strong><br><p>" + description + "</p><ul>";
         d.data.children.forEach(element => {
-            html += '<li>' + element.name + '</li>';
-            
+            html += '<li>' + element.name + ' (' + element.size + ') '+ '</li>';
         });
-        html += '</ul><div id="sankey"></div>'
+        html += '</ul>'
         
         tooltip
           .style("left", d3.event.pageX + 50 + "px")
           .style("top", d3.event.pageY - 70 + "px")
           .style("display", "inline-block")
           .html(html);
-        drawSankey('sankey', [{
-            source: 'A',
-            target: 'B',
-            value: 2
-          }]);
       })
-      .on("mouseout", function(d){ tooltip.style("display", "none");})
+      .on("mouseout", function(d){ tooltip.style("display", "none");});
 
 
     var text = g.selectAll("text")
@@ -86,26 +89,26 @@ function displayPackedBubbles(divId, boxWidth, boxHeight, cardColor, data, displ
         .enter().append("text")
         .attr("class", "label")
         .style("fill-opacity", function(d) {
-            //if(displayOnlyChildrenLabel){
-                return (d.children && d.children.length) ? 0 : 1;
-            //}
-            //return d.parent === root ? 1 : 0; 
+            return (d.children && d.children.length) ? 0 : 1;
         })
         .style("display", function(d) { 
-            //if(displayOnlyChildrenLabel){
-                return (d.children && d.children.length) ? "none" : "inline";
-            //}
-            //return d.parent === root ? "inline" : "none"; 
+            return (d.children && d.children.length) ? "none" : "inline";
         })
         .style("float", "center")
-        .text(function(d) { return d.data.name; });
+        .html(function(d) { 
+            var name = d.data.name;
+            if(name.length > 10){
+                name = name.substring(0, 7) + '...';
+            }
+            return '<a href="#" rel="modal:open">' + name + '</a>'; 
+        });
 
     var node = g.selectAll("circle,text");
 
     svg.style("background", cardColor);
-    //if(!displayOnlyChildrenLabel){
-        svg.on("click", function() { zoom(root); });
-    //}
+    
+    svg.on("click", function() { zoom(root); });
+    
 
     zoomTo([root.x, root.y, root.r * 2 + zoomMargin]);
 

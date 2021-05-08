@@ -1,10 +1,10 @@
 function drawSankey(divId, data){
-  var units = "Widgets";
+  var units = "documents";
 
   // set the dimensions and margins of the graph
   var margin = {top: 0, right: 0, bottom: 0, left: 0},
-      width = 100 - margin.left - margin.right,
-      height = 100 - margin.top - margin.bottom;
+      width = 450 - margin.left - margin.right,
+      height = 450 - margin.top - margin.bottom;
 
   // format variables
   var formatNumber = d3.format(",.0f"),    // zero decimal places
@@ -36,7 +36,8 @@ function drawSankey(divId, data){
     graph.nodes.push({ "name": d.target });
     graph.links.push({ "source": d.source,
                       "target": d.target,
-                      "value": +d.value });
+                      "value": +d.size,
+                      "documents": d.documents });
   });
 
   // return only the distinct / unique nodes
@@ -116,6 +117,19 @@ function drawSankey(divId, data){
       .attr("x", 6 + sankey.nodeWidth())
       .attr("text-anchor", "start");
 
+  link.on("click", function(d) { 
+    console.log(d);
+    if(d.documents){
+      var html = '<h2>Top (5) sub-terms\' relations</h2><br><ul>';
+      for (var link in d.documents) {
+        html += '<li><a taget="_blank" href="' + link + '">' + d.documents[link]['title'] + '</a><p>' + d.documents[link]['description'] + '</p></li>';
+      }
+      html += '</ul>';
+      $('#sankeyList').html(html);
+    } else {
+      $('#sankeyList').html('<p>Failed to identify scanned results.</p>');
+    }
+  });
   // the function for moving the nodes
   function dragmove(d) {
     d3.select(this)

@@ -139,6 +139,12 @@ li:hover {
 .taskDescription {
   margin: 10px 10px 10px 10px;
 }
+
+#taskDescription {
+  margin: 10px 10px 10px 10px;
+  color:rgb(73, 104, 10);
+  font-weight: bold;
+}
 .taskDiv li{
   background: #ffffff00;
   text-align: left;
@@ -232,4 +238,23 @@ li:hover {
   border: 1px solid #161517;
   padding: 10px;
   text-align: left;
+}
+
+.modal{
+  max-width: 1000px;
+  width: 1000px;
+}
+#sankey {
+  float: left;
+}
+#sankeyList {
+  width: 425px;
+  float: right;
+}
+
+.close{
+  content: "  X";
+  color:  #1d2e02;
+  font-size: 25px;
+  float: right;
 }

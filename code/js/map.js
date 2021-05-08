@@ -59,7 +59,7 @@ function drawMapBlocksPerDateGraph(divId, data, className, width, height){
     svg.append("text")
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
     .attr("transform", "translate("+ (-30) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-    .text("Story blocks count");
+    .text("Documents count");
 
   svg.append("text")
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
@@ -75,8 +75,9 @@ function mapReady(error, data, items) {
     .attr('class', 'd3-map-tip')
     .offset([-10, 0])
     .html(function(d) {
-      var html = "<strong>Country: </strong><span class='details'>" 
-        + d.properties.name + "<br></span>"
+      var url = '/rc.html?key=' + d.key;
+      var html = "<strong>Country: </strong><span class='details'><a href=\"" + url + "\">" 
+        + d.properties.name + "</a><br></span>"
         + "<strong>Blocks count in range: </strong><span class='details'>" 
         + d.total_block_count_in_range +"</span>";
       if (d.count_per_day) {
@@ -150,8 +151,10 @@ function mapReady(error, data, items) {
         .style('stroke-width', 0.3)
         .on('mouseover',function(d){
           var divId = 'map' + d.id;
+          mapTooltip.hide(d);
           mapTooltip.show(d);
           if(d.count_per_day && d.count_per_day.length){
+            console.log('drawing');
             drawMapBlocksPerDateGraph(divId, d.count_per_day, "mapTooltipGraph", 300, 300);
           }
           d3.select(this)
@@ -160,14 +163,13 @@ function mapReady(error, data, items) {
             .style("stroke-width",3);
         })
         .on('mouseout', function(d){
-            mapTooltip.hide(d);
-
           d3.select(this)
             .style("opacity", 0.8)
             .style("stroke","white")
             .style("stroke-width",0.3);
         })
         .on("click", function(d){ 
+          mapTooltip.hide(d);
           if (!d.key) return;
           var url = '/rc.html?key=' + d.key;
           window.open(url, '_blank');
